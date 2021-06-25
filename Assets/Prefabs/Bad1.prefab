@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 2065690926975670427}
   m_Layer: 0
   m_Name: Bad1
-  m_TagString: Untagged
+  m_TagString: Bad
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -93,6 +93,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d75bc4292b479247aa2d4e14294b316, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scoreValue: -2
+  particleEffect: {fileID: 2088871590894813759, guid: 745208c9d6e104225bd99e1ab894e3bb,
+    type: 3}
 --- !u!95 &2160425570499835385
 Animator:
   serializedVersion: 3

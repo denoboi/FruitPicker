@@ -5,10 +5,16 @@ using UnityEngine;
 public class Target : MonoBehaviour
 {
     private Rigidbody targetRb;
+    private GameManager gameManager;
+    public int scoreValue;
+    public ParticleSystem particleEffect;
 
     void Start()
     {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>(); //diger scripti cagiriyoruz.
         targetRb = GetComponent<Rigidbody>();
+        
+        
 
         targetRb.AddForce(RandomForce(), ForceMode.Impulse); //yukariya dogru random bolgeye force
         targetRb.AddTorque (RandomTorque(), RandomTorque(), RandomTorque(), ForceMode.Impulse); 
@@ -18,7 +24,8 @@ public class Target : MonoBehaviour
 
     void Update()
     {
-        
+        NegativeScore();
+        WinCondition();
     }
 
     Vector3 RandomForce()
@@ -36,10 +43,38 @@ public class Target : MonoBehaviour
     }
     private void OnMouseDown()
     {
-        Destroy(gameObject);
+        if(gameManager.isGameActive)
+        {
+            Destroy(gameObject);
+            gameManager.UpdateScore(scoreValue); //diger scriptten cagirdik
+            Instantiate(particleEffect, transform.position, particleEffect.transform.rotation);
+         }
+       
     }
     private void OnTriggerEnter(Collider other)
     {
-        Destroy(gameObject); //asagida bir game obje daha var. ona degdiginde yok oluyor..
+        Destroy(gameObject); //asagida bir game obje daha var. ona degdiginde yok oluyor(sensor)
+        if(!gameObject.CompareTag("Bad")) //good objeler sensore degerse game over olsun.
+        {
+            gameManager.GameOver();
+        }
+        Physics.IgnoreLayerCollision(0,0,true);
+       
     }
+    void NegativeScore()
+    {
+        if (gameManager.score < 0)
+        {
+            gameManager.GameOver();
+        }            
+    }
+    void WinCondition()
+    {
+        if(gameManager.score > 14)
+        {
+            gameManager.Win();
+
+        }    
+    }
+    
 }
